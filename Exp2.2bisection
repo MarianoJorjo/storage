@@ -1,0 +1,51 @@
+function [r,k] = polybisection(coef,ab,epsilon)
+    a = ab(1);
+    b = ab(2);
+    x = length(coef); %In order to have no limitation on the length polynomials  
+    xa = [];
+    xb = [];
+    xc = [];
+    n = 0;
+    fcc = 1;
+    while fcc >= epsilon
+    %firsts loop to obtain both f(a) and f(b)
+        while n < x
+            fa = coef(x-n)*(a^(x-n));
+            xa = [xa,fa];
+            fb = coef(x-n)*(b^(x-n));
+            xb = [xb,fb];
+            n = n+1;
+        end
+        A = sum(xa);
+        B = sum(xb);
+        if A*B>=0
+            disp('ERROR INTERVAL')
+            return
+        end
+        c = (A + B)/2;
+        m = 0;
+    %another loop to get f(c)
+        while m < x
+            fc = coef(x-m)*(c^(x-m));
+            xc = [xc,fc];
+            m = m+1;
+        end
+        C = sum(xc);
+    %ffa = flip(xa);
+    %the process to change variables whichever product results to a
+    %postiive integer
+        if C*B >= 0
+            b = c;
+        end
+        if C*A >= 0
+            a = c;
+        end
+        fcc = abs(C);
+        disp(A)
+    disp(B)
+    disp(C)
+    disp(a)
+    disp(b)
+    end
+    
+end
